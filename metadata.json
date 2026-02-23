@@ -1,0 +1,5 @@
+{
+  "name": "Ramadan Pro",
+  "description": "A minimalist Ramadan companion with precise Sehri and Iftar countdowns, prayer times, and Adhan notifications.",
+  "requestFramePermissions": ["geolocation"]
+}
