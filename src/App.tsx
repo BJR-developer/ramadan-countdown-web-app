@@ -37,6 +37,9 @@ const ScreenWrapper = ({ children, active }: { children: React.ReactNode; active
   </motion.div>
 );
 
+// Constants
+const RAMADAN_START_2026 = new Date(2026, 1, 18); // Feb 18, 2026
+
 export default function App() {
   const [activeScreen, setActiveScreen] = useState<Screen>('home');
   const [now, setNow] = useState(new Date());
@@ -229,12 +232,16 @@ export default function App() {
                 </div>
                 <div className="divide-y divide-zinc-100 max-h-[60vh] overflow-y-auto">
                   {Array.from({ length: 30 }).map((_, i) => {
-                    const date = addDays(startOfToday(), i);
+                    const date = addDays(RAMADAN_START_2026, i);
                     const times = getPrayerTimes(date, location);
+                    const isToday = format(date, 'yyyy-MM-dd') === format(now, 'yyyy-MM-dd');
                     return (
-                      <div key={i} className="grid grid-cols-4 p-4 text-sm items-center">
+                      <div key={i} className={cn(
+                        "grid grid-cols-4 p-4 text-sm items-center transition-colors",
+                        isToday ? "bg-zinc-900 text-white" : "hover:bg-zinc-50"
+                      )}>
                         <span className="font-medium">{i + 1}</span>
-                        <span className="text-zinc-500">{format(date, 'dd MMM')}</span>
+                        <span className={cn("text-xs", isToday ? "text-zinc-400" : "text-zinc-500")}>{format(date, 'dd MMM')}</span>
                         <span className="font-mono">{format(times.imsak, 'HH:mm')}</span>
                         <span className="font-mono text-right">{format(times.maghrib, 'HH:mm')}</span>
                       </div>
